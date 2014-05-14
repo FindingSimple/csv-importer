@@ -2138,12 +2138,13 @@ class File_CSV_DataSource
         if (!$this->validates()) {
             return false;
         }
-
+	
         $c = 0;
         $d = $this->settings['delimiter'];
         $e = $this->settings['escape'];
         $l = $this->settings['length'];
-
+		
+		ini_set('auto_detect_line_endings',TRUE);
         $res = fopen($this->_filename, 'r');
 
         while ($keys = fgetcsv($res, $l, $d, $e)) {
@@ -2158,6 +2159,7 @@ class File_CSV_DataSource
         }
 
         fclose($res);
+		ini_set('auto_detect_line_endings',FALSE);
         $this->removeEmpty();
         return true;
     }
